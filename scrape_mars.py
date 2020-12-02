@@ -105,5 +105,8 @@ def scrape_info():
     mars["hemispheres"] = hemisphere_image_urls
     # return mars dictionary
     return mars
+if __name__ == "__main__":
+    print(scrape_info())
+
 
     
