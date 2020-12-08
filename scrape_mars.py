@@ -2,6 +2,7 @@
 from splinter import Browser
 from bs4 import BeautifulSoup as bs
 import time
+import pandas as pd
 import pymongo
 
 
@@ -26,7 +27,7 @@ def scrape_info():
     news_soup = bs(html, "html.parser")
 
     # Retrieve the latest news title and paragraph
-    news_title = news_soup.find_all('div', class_='content_title')[0].text
+    news_title = news_soup.find_all('div', class_='content_title')[1].text
     news_p = news_soup.find_all('div', class_='article_teaser_body')[0].text
     mars["news_title"] = news_title
     mars["news_p"] = news_p
@@ -40,7 +41,7 @@ def scrape_info():
     browser.find_link_by_partial_text("more info").click()
     html = browser.html
 
-    images_soup = BeautifulSoup(html, 'html.parser')
+    images_soup = bs(html, 'html.parser')
     image_link = images_soup.find('figure',class_="lede")
     print(image_link)
     space_image=image_link.a.img["src"]
@@ -81,7 +82,7 @@ def scrape_info():
 
     browser.visit(hemispheres_url)
     hemispheres_html = browser.html
-    hemispheres_soup = BeautifulSoup(hemispheres_html, 'html.parser')
+    hemispheres_soup = bs(hemispheres_html, 'html.parser')
 
     headers=[]
     titles = hemispheres_soup.find_all('h3')
